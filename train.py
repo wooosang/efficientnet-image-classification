@@ -16,11 +16,11 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
     model.train()
 
     for i, (images, target) in enumerate(train_loader):
-        print(images.shape)
+#        print(images.shape)
         # compute output
         output = model(images)
         loss = criterion(output, target)
-        print('Epoch ', epoch, loss)
+        print('Epoch ', epoch, loss.detach().numpy())
 
         # compute gradient and do SGD step
         optimizer.zero_grad()
