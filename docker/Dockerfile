@@ -12,4 +12,8 @@ RUN pip3 install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
 RUN pip3 install pyyaml huggingface_hub -i https://pypi.tuna.tsinghua.edu.cn/simple
 RUN apt install -y wget
-RUN mkdir -p /root/.cache/torch/hub/checkpoints && wget https://github.com/lukemelas/EfficientNet-PyTorch/releases/download/1.0/efficientnet-b0-355c32eb.pth -O /root/.cache/torch/hub/checkpoints/efficientnet-b0-355c32eb.pth
+RUN mkdir -p /home/ubuntu/.cache/torch/hub/checkpoints && wget https://github.com/lukemelas/EfficientNet-PyTorch/releases/download/1.0/efficientnet-b0-355c32eb.pth -O /home/ubuntu/.cache/torch/hub/checkpoints/efficientnet-b0-355c32eb.pth
+RUN useradd -d /home/ubuntu -m -s /bin/bash ubuntu 
+WORKDIR /app
+RUN chown -R ubuntu:ubuntu /app
+USER ubuntu
