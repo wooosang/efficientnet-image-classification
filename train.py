@@ -17,14 +17,14 @@ def save_checkpoint_state(epoch, model, optimizer, running_loss):
                         "optimizer_state_dict": optimizer.state_dict()
                     }
             
-        torch.save(model.state_dict(), "./ckpts/checkpoint.pth.tar")
+        torch.save(checkpoint, "./ckpts/checkpoint.pth.tar")
 
 
 def load_checkpoint_state(path, device, model, optimizer):
         checkpoint = torch.load(path, map_location=device)
         model.load_state_dict(checkpoint["model_state_dict"])
         epoch = checkpoint["epoch"]
-        optimizer.load_state_dict(checkpoint["optimizer_state_dict"])                                        
+        optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
         return model, epoch, optimizer
 
 def train(train_loader, model, criterion, optimizer, epoch, args):
@@ -60,7 +60,9 @@ def main(args):
 
     train_dataset = build_data_set(args.image_size, args.train_data)
     train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=args.num_workers)
+    print("Resume {}".format(args.resume))
     if args.resume:
+        print("Resume last training.")
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         model, start_epoch, optimizer = load_checkpoint_state("./ckpts/checkpoint.pth.tar", device, model, optimizer)
 
@@ -88,6 +90,6 @@ if __name__ == '__main__':
     parser.add_argument('--arch', default='efficientnet-b0', help='arch type of EfficientNet')
     parser.add_argument('--pretrained', default=True, help='learning rate')
     parser.add_argument('--advprop', default=False, help='advprop')
-    parser.add_argument('--resume', default=False, help='resume')
+    parser.add_argument('--resume', action="store_true", help='resume')
     args = parser.parse_args()
     main(args)
