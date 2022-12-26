@@ -17,7 +17,7 @@ def save_checkpoint_state(epoch, model, optimizer, running_loss):
                         "optimizer_state_dict": optimizer.state_dict()
                     }
             
-        torch.save(checkpoint, "./ckpts/checkpoint.pth.tar")
+        torch.save(model.state_dict(), "./ckpts/checkpoint.pth.tar")
 
 
 def load_checkpoint_state(path, device, model, optimizer):
@@ -70,7 +70,7 @@ def main(args):
             if not os.path.exists(args.checkpoint_dir):
                 os.mkdir(args.checkpoint_dir)
             torch.save(model.state_dict(), os.path.join(args.checkpoint_dir, 'checkpoint.pth.tar.epoch_%s' % epoch))
-            save_checkpoint_state(epoch, model, optimizer,loss)
+            save_checkpoint_state(epoch, model, optimizer, loss)
 
 
 if __name__ == '__main__':

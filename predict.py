@@ -14,7 +14,7 @@ if __name__ == '__main__':
     model = EfficientNet.from_name('efficientnet-b0')
     num_ftrs = model._fc.in_features
     model._fc = nn.Linear(num_ftrs, 2)
-    model.load_state_dict(torch.load('./ckpts/checkpoint.pth.tar.epoch_9'))
+    model.load_state_dict(torch.load('./ckpts/checkpoint.pth.tar'))
     model.eval()
     image = Image.open(args.path)
     image = image.convert('RGB')
@@ -23,3 +23,5 @@ if __name__ == '__main__':
     pred = model(input_tensor)
     # pred = model(input_tensor).argmax()
     print("prediction:", pred)
+    labels = {0:"NG",1:"OK"}
+    print (labels[pred.argmax().item()])
