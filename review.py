@@ -42,5 +42,5 @@ if __name__ == '__main__':
             count = count + 1
             os.makedirs(args.review_path, exist_ok=True)
             shutil.move(i, args.review_path+'/'+name)
-        if count>10:
+        if count>5000:
             sys.exit(0)
